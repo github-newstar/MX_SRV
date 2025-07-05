@@ -4,7 +4,7 @@ import grpc
 import warnings
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-from user_srv.proto import user_pb2 as user__srv_dot_proto_dot_user__pb2
+from . import user_pb2 as user__pb2
 
 GRPC_GENERATED_VERSION = '1.73.1'
 GRPC_VERSION = grpc.__version__
@@ -19,7 +19,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in user_srv/proto/user_pb2_grpc.py depends on'
+        + f' but the generated code in user_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,27 +37,27 @@ class UserStub(object):
         """
         self.GetUserList = channel.unary_unary(
                 '/User/GetUserList',
-                request_serializer=user__srv_dot_proto_dot_user__pb2.PageInfo.SerializeToString,
-                response_deserializer=user__srv_dot_proto_dot_user__pb2.UserListResponse.FromString,
+                request_serializer=user__pb2.PageInfo.SerializeToString,
+                response_deserializer=user__pb2.UserListResponse.FromString,
                 _registered_method=True)
         self.GetUserByMobile = channel.unary_unary(
                 '/User/GetUserByMobile',
-                request_serializer=user__srv_dot_proto_dot_user__pb2.MobileRequest.SerializeToString,
-                response_deserializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+                request_serializer=user__pb2.MobileRequest.SerializeToString,
+                response_deserializer=user__pb2.UserInfoResponse.FromString,
                 _registered_method=True)
         self.GetUserById = channel.unary_unary(
                 '/User/GetUserById',
-                request_serializer=user__srv_dot_proto_dot_user__pb2.IdRequest.SerializeToString,
-                response_deserializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+                request_serializer=user__pb2.IdRequest.SerializeToString,
+                response_deserializer=user__pb2.UserInfoResponse.FromString,
                 _registered_method=True)
         self.CreateUser = channel.unary_unary(
                 '/User/CreateUser',
-                request_serializer=user__srv_dot_proto_dot_user__pb2.CreateUserInfo.SerializeToString,
-                response_deserializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+                request_serializer=user__pb2.CreateUserInfo.SerializeToString,
+                response_deserializer=user__pb2.UserInfoResponse.FromString,
                 _registered_method=True)
         self.UpdateUser = channel.unary_unary(
                 '/User/UpdateUser',
-                request_serializer=user__srv_dot_proto_dot_user__pb2.UpdateUserInfo.SerializeToString,
+                request_serializer=user__pb2.UpdateUserInfo.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 _registered_method=True)
 
@@ -100,27 +100,27 @@ def add_UserServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetUserList': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserList,
-                    request_deserializer=user__srv_dot_proto_dot_user__pb2.PageInfo.FromString,
-                    response_serializer=user__srv_dot_proto_dot_user__pb2.UserListResponse.SerializeToString,
+                    request_deserializer=user__pb2.PageInfo.FromString,
+                    response_serializer=user__pb2.UserListResponse.SerializeToString,
             ),
             'GetUserByMobile': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserByMobile,
-                    request_deserializer=user__srv_dot_proto_dot_user__pb2.MobileRequest.FromString,
-                    response_serializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.SerializeToString,
+                    request_deserializer=user__pb2.MobileRequest.FromString,
+                    response_serializer=user__pb2.UserInfoResponse.SerializeToString,
             ),
             'GetUserById': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserById,
-                    request_deserializer=user__srv_dot_proto_dot_user__pb2.IdRequest.FromString,
-                    response_serializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.SerializeToString,
+                    request_deserializer=user__pb2.IdRequest.FromString,
+                    response_serializer=user__pb2.UserInfoResponse.SerializeToString,
             ),
             'CreateUser': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateUser,
-                    request_deserializer=user__srv_dot_proto_dot_user__pb2.CreateUserInfo.FromString,
-                    response_serializer=user__srv_dot_proto_dot_user__pb2.UserInfoResponse.SerializeToString,
+                    request_deserializer=user__pb2.CreateUserInfo.FromString,
+                    response_serializer=user__pb2.UserInfoResponse.SerializeToString,
             ),
             'UpdateUser': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateUser,
-                    request_deserializer=user__srv_dot_proto_dot_user__pb2.UpdateUserInfo.FromString,
+                    request_deserializer=user__pb2.UpdateUserInfo.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
     }
@@ -149,8 +149,8 @@ class User(object):
             request,
             target,
             '/User/GetUserList',
-            user__srv_dot_proto_dot_user__pb2.PageInfo.SerializeToString,
-            user__srv_dot_proto_dot_user__pb2.UserListResponse.FromString,
+            user__pb2.PageInfo.SerializeToString,
+            user__pb2.UserListResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -176,8 +176,8 @@ class User(object):
             request,
             target,
             '/User/GetUserByMobile',
-            user__srv_dot_proto_dot_user__pb2.MobileRequest.SerializeToString,
-            user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+            user__pb2.MobileRequest.SerializeToString,
+            user__pb2.UserInfoResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -203,8 +203,8 @@ class User(object):
             request,
             target,
             '/User/GetUserById',
-            user__srv_dot_proto_dot_user__pb2.IdRequest.SerializeToString,
-            user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+            user__pb2.IdRequest.SerializeToString,
+            user__pb2.UserInfoResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -230,8 +230,8 @@ class User(object):
             request,
             target,
             '/User/CreateUser',
-            user__srv_dot_proto_dot_user__pb2.CreateUserInfo.SerializeToString,
-            user__srv_dot_proto_dot_user__pb2.UserInfoResponse.FromString,
+            user__pb2.CreateUserInfo.SerializeToString,
+            user__pb2.UserInfoResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -257,7 +257,7 @@ class User(object):
             request,
             target,
             '/User/UpdateUser',
-            user__srv_dot_proto_dot_user__pb2.UpdateUserInfo.SerializeToString,
+            user__pb2.UpdateUserInfo.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options,
             channel_credentials,
