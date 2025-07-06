@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: mx_srv_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: user_srv
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mx_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # 用户服务
+  user_srv:
+    build: .
+    container_name: mx_srv_user
+    ports:
+      - "50051:50051"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=app_user
+      - MYSQL_PASSWORD=app_password
+      - MYSQL_DB=user_srv
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mx_network
+    volumes:
+      - ./user_srv/logs:/app/user_srv/logs
+    restart: unless-stopped
+
+  # 用户服务 - 开发模式
+  user_srv_dev:
+    build: .
+    container_name: mx_srv_user_dev
+    ports:
+      - "50052:50051"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=app_user
+      - MYSQL_PASSWORD=app_password
+      - MYSQL_DB=user_srv
+      - LOG_LEVEL=DEBUG
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mx_network
+    volumes:
+      - .:/app
+      - ./user_srv/logs:/app/user_srv/logs
+    profiles:
+      - dev
+    command: ["python", "-m", "user_srv.server", "--host", "0.0.0.0", "--port", "50051"]
+
+  # Redis (可选，用于缓存)
+  redis:
+    image: redis:7-alpine
+    container_name: mx_srv_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mx_network
+    profiles:
+      - cache
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  mx_network:
+    driver: bridge
